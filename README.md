@@ -6,7 +6,7 @@ A light text editor.
 git clone https://github.com/EntityBug/Notepad.git
 ```
 2.Edit CMakeLists.txt  
-line 14:
+add:
 ```
 if (APPLE)
     set(CMAKE_PREFIX_PATH "/Your/Qt/Path/QtVersion/macos/lib/cmake")
