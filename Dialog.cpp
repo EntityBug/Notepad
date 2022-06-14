@@ -4,6 +4,8 @@
 #include <iostream>
 #include <QDialogButtonBox>
 #include <QObject>
+#include <QPushButton>
+#include <QMessageBox>
 
 void Dialog::findFirst()
 {
@@ -14,6 +16,16 @@ void Dialog::findFirst()
 [[maybe_unused]] void Dialog::replace()
 {
 
+}
+
+void Dialog::save()
+{
+
+}
+
+void Dialog::cancel()
+{
+    
 }
 
 Dialog::Dialog(QWidget *parent, int id, bool chinese) :
@@ -47,6 +59,15 @@ Dialog::Dialog(QWidget *parent, int id, bool chinese) :
         ui->buttonBox->removeButton(ui->buttonBox->buttons()[1]);
         ui->lineEdit->setVisible(false);
         QObject::connect((ui->buttonBox), &QDialogButtonBox::accepted, this, &Dialog::close);
+    } else if(id == 3) {
+//        qDebug() << "Dialog:type 3\n";
+//        this->setWindowTitle(T->quitDialogTitle);
+//        ui->label->setText(T->quitDialogText);
+//        QDialogButtonBox::StandardButton * btn = new QDialogButtonBox::StandardButton();
+//        ui->buttonBox->addButton(btn, QMessageBox::DestructiveRole);
+//        ui->buttonBox->buttons()[0]->setText(T->save);
+//        ui->buttonBox->buttons()[1]->setText(T->cancelButton);
+//        ui->buttonBox->buttons()[2]->setText(T->quitDialogNoSaveButton);
     }
 }
 

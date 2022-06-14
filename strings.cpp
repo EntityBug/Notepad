@@ -4,7 +4,7 @@
 #include "strings.h"
 
 Text::Text() {
-    version = "1.0 dev6 (220508)";
+    version = "1.0 dev6 (220614)";
     defaultConfig = "autoSave=false\n"
                     "treeView=true\n"
                     "fontFamily=等线\n"
@@ -48,11 +48,11 @@ void Text::loadLanguage(bool chinese) {
         settingsLab2 = "关于";
         updateLog = "# 关于  \n"
                     "## 版本  \n"
-                    "version 1.0 dev 6 (220508)  \n"
+                    "version 1.0 dev 6 (220604)  \n"
                     "## 免责声明  \n"
                     "使用本APP造成的任何损失，本APP概不负责。  \n"
                     "## 更新日志  \n"
-                    "### Dev6 (220508)  \n"
+                    "### Dev6 (220614)  \n"
                     "1.（正式地）新年快乐！  \n"
                     "2.更多资源分离，修改部分string  \n"
                     "3.添加部分更新日志  \n"
@@ -115,6 +115,9 @@ void Text::loadLanguage(bool chinese) {
                             "4.另一种即字体配置，可以输入你在Word中看到的所有的字体名，不用加除名称外的其他信息。\n"
                             "5.chinese选项开启为中文（简体），关闭为英文";
         settingsGuideTitle = "配置方法";
+        quitDialogTitle = "文件未保存";
+        quitDialogText = "当前文件未保存，是否保存？";
+        quitDialogNoSaveButton = "不保存";
     } else {
         file = "File";
         open = "Open";
@@ -150,11 +153,11 @@ void Text::loadLanguage(bool chinese) {
         settingsLab2 = "About";
         updateLog = "# About  \n"
                     "## Version  \n"
-                    "version 1.0 dev 6 (220508)  \n"
+                    "version 1.0 dev 6 (220614)  \n"
                     "## Disclaimers  \n"
                     "I am not responsible for any loss caused by using this app.  \n"
                     "## Update Log  \n"
-                    "### Dev6 (220508)  \n"
+                    "### Dev6 (220614)  \n"
                     "1.Happy lunar new year!  \n"
                     "2.Move more strings to strings.h & some string improvements.  \n"
                     "3.Add some update log.  \n"
@@ -217,5 +220,8 @@ void Text::loadLanguage(bool chinese) {
                             "4.For string values (font setting), you should enter the font name that you can see in Microsoft Word (or other office apps). You don't need to enter anything except the font name\n"
                             "5.If you set \"chinese\" to false, the language will be changed to English, or the language will be Chinese (Simplified)";
         settingsGuideTitle = "Guide";
+        quitDialogTitle = "File is not saved";
+        quitDialogText = "The file is not saved, are you going to save it?";
+        quitDialogNoSaveButton = "Don't Save";
     }
 }

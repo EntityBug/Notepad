@@ -51,6 +51,9 @@ public:
     s cancelButton;
     s settingsGuideTitle;
     s settingsGuideText;
+    s quitDialogTitle;
+    s quitDialogText;
+    s quitDialogNoSaveButton;
     void loadLanguage(bool chinese);
     explicit Text();
 };

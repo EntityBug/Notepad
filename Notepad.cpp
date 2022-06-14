@@ -18,6 +18,20 @@
 using std::string;
 using std::vector;
 
+void Notepad::about()
+{
+    qDebug() << "Notepad::about: start.\n";
+    auto *d = new Dialog(this, 1, cfg.chinese);
+    d->show();
+    d->exec();
+}
+
+//void Notepad::closeEvent(QCloseEvent * event) {
+//    if (this->path.empty() || file == ui->textEdit->toPlainText().toStdString()) {
+//        event->accept();
+//    }
+//}
+
 void Notepad::find()
 {
     qDebug() << "Notepad::find(): start.\n";
@@ -35,95 +49,9 @@ void Notepad::find()
 
 }
 
-void Notepad::about()
+QString Notepad::getFontCfg() const
 {
-    qDebug() << "Notepad::about: start.\n";
-    auto *d = new Dialog(this, 1, cfg.chinese);
-    d->show();
-    d->exec();
-}
-
-void Notepad::openSetting()
-{
-    qDebug() << "Notepad::openSetting: start.\n";
-    auto * setting = new Setting(this, cfg.chinese);
-    setting->show();
-    setting->exec();
-}
-
-void Notepad::openFile()
-{
-    string text;
-    string temp;
-    qDebug() << "Notepad::openFile: start.\n";
-    this->path = QFileDialog::getOpenFileName(this, "", ".", "*.*").toStdString();
-    qDebug() << "Notepad::openFile: path:" << this->path.c_str() << ".\n";
-    this->fs.open(this->path, std::ios::in);
-    if(!this->fs) return;
-    while(getline(this->fs, temp))
-    {
-        if(!(text.empty())) text.append("\n");
-        text.append(temp);
-    }
-    qDebug() << "Notepad::openFile: text:\n" << text.c_str() << "\n---end---\n";
-    ui->textEdit->setText(QString::fromStdString(text));
-    this->fs.close();
-}
-
-void Notepad::saveAs()
-{
-    qDebug() << "Notepad::saveAs: start.\n";
-    this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
-    qDebug() << "Notepad::saveAs: path:" << this->path.c_str() << ".\n";
-    this->fs.open(this->path, std::ios::out);
-    if(!this->fs) return;
-    this->fs << ui->textEdit->toPlainText().toStdString();
-    this->fs.close();
-}
-
-void Notepad::saveFile()
-{
-    qDebug() << "Notepad::saveFile: start.\n";
-    if(this->path.empty()) this->saveAs();
-    this->fs.open(this->path, std::ios::out);
-    if(!this->fs) return;
-    this->fs << ui->textEdit->toPlainText().toStdString();
-    this->fs.close();
-}
-
-[[maybe_unused]] void Notepad::autoSave()
-{
-    // ToDo: add auto save.
-}
-
-void Notepad::openFolder()
-{
-    qDebug() << "Notepad::openFolder: start.\n";
-    QString folder = QFileDialog::getExistingDirectory();
-    qDebug() << "Notepad::openFolder: path:" << folder.toStdString().c_str() << ".\n";
-    model = new QFileSystemModel();
-    model->setRootPath(folder);
-    ui->treeView->setModel(model);
-    ui->treeView->setRootIndex(model->index(folder));
-    ui->treeView->setSortingEnabled(true);
-    ui->treeView->setColumnHidden(1, true);
-    ui->treeView->setColumnHidden(2, true);
-    ui->treeView->setColumnHidden(3, true);
-}
-
-void Notepad::splitString(const string& s, vector<string>& v, const string& c)
-{
-    std::string::size_type pos1, pos2;
-    pos2 = s.find(c);
-    pos1 = 0;
-    while(std::string::npos != pos2)
-    {
-        v.push_back(s.substr(pos1, pos2-pos1));
-        pos1 = pos2 + c.size();
-        pos2 = s.find(c, pos1);
-    }
-    if(pos1 != s.length())
-    v.push_back(s.substr(pos1));
+    return cfg.font;
 }
 
 void Notepad::init()
@@ -142,7 +70,11 @@ void Notepad::init()
         qDebug() << "Notepad::init-log:config.txt is not exist\n";
         this->fs.close();
         this->fs.open("config.txt", std::ios::out);
-        this->fs << T->defaultConfig.toStdString();
+        if(!this->fs) {
+            qDebug() << "Notepad::init-log:create config.txt failed.";
+        } else {
+            this->fs << T->defaultConfig.toStdString();
+        }
         this->fs.close();
     } else {
         string text;
@@ -213,11 +145,6 @@ void Notepad::init()
     ui->actionAbout->setText(T->aboutNotepad);
 }
 
-QString Notepad::getFontCfg() const
-{
-    return cfg.font;
-}
-
 void Notepad::onClickTreeView(const QModelIndex &index)
 {
     if (!model) return;
@@ -237,6 +164,83 @@ void Notepad::onClickTreeView(const QModelIndex &index)
     this->fs.close();
 }
 
+void Notepad::openFile()
+{
+    string text;
+    string temp;
+    qDebug() << "Notepad::openFile: start.\n";
+    this->path = QFileDialog::getOpenFileName(this, "", ".", "*.*").toStdString();
+    qDebug() << "Notepad::openFile: path:" << this->path.c_str() << ".\n";
+    this->fs.open(this->path, std::ios::in);
+    if(!this->fs) return;
+    while(getline(this->fs, temp))
+    {
+        if(!(text.empty())) text.append("\n");
+        text.append(temp);
+    }
+    qDebug() << "Notepad::openFile: text:\n" << text.c_str() << "\n---end---\n";
+    ui->textEdit->setText(QString::fromStdString(text));
+    file = text;
+    this->fs.close();
+}
+
+void Notepad::openFolder()
+{
+    qDebug() << "Notepad::openFolder: start.\n";
+    QString folder = QFileDialog::getExistingDirectory();
+    qDebug() << "Notepad::openFolder: path:" << folder.toStdString().c_str() << ".\n";
+    model = new QFileSystemModel();
+    model->setRootPath(folder);
+    ui->treeView->setModel(model);
+    ui->treeView->setRootIndex(model->index(folder));
+    ui->treeView->setSortingEnabled(true);
+    ui->treeView->setColumnHidden(1, true);
+    ui->treeView->setColumnHidden(2, true);
+    ui->treeView->setColumnHidden(3, true);
+}
+
+void Notepad::openSetting()
+{
+    qDebug() << "Notepad::openSetting: start.\n";
+    auto * setting = new Setting(this, cfg.chinese);
+    setting->show();
+    setting->exec();
+}
+
+void Notepad::saveAs()
+{
+    qDebug() << "Notepad::saveAs: start.\n";
+    this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
+    qDebug() << "Notepad::saveAs: path:" << this->path.c_str() << ".\n";
+    saveFile();
+}
+
+bool Notepad::saveFile()
+{
+    qDebug() << "Notepad::saveFile: start.\n";
+    this->fs.open(this->path, std::ios::out);
+    if(!this->fs) return false;
+    file = ui->textEdit->toPlainText().toStdString();
+    this->fs << file;
+    this->fs.close();
+    return true;
+}
+
+void Notepad::splitString(const string& s, vector<string>& v, const string& c)
+{
+    std::string::size_type pos1, pos2;
+    pos2 = s.find(c);
+    pos1 = 0;
+    while(std::string::npos != pos2)
+    {
+        v.push_back(s.substr(pos1, pos2-pos1));
+        pos1 = pos2 + c.size();
+        pos2 = s.find(c, pos1);
+    }
+    if(pos1 != s.length())
+    v.push_back(s.substr(pos1));
+}
+
 Notepad::Notepad(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Notepad)
@@ -246,7 +250,7 @@ Notepad::Notepad(QWidget *parent)
     init();
     QObject::connect((ui->actionExit), &QAction::triggered, this, &QWidget::close);  // close the window
     QObject::connect((ui->actionOpen), &QAction::triggered, this, &Notepad::openFile);  // open file
-    QObject::connect((ui->actionSave), &QAction::triggered, this, &Notepad::saveFile);  // save file
+    QObject::connect((ui->actionSave), &QAction::triggered, this, &Notepad::saveAs);  // save file
     QObject::connect((ui->actionSaveAs), &QAction::triggered, this, &Notepad::saveAs);  // save file as
     QObject::connect((ui->actionSetting), &QAction::triggered, this, &Notepad::openSetting);  // open the dialog of settings
     QObject::connect((ui->actionAbout), &QAction::triggered, this, &Notepad::about);  // show the information of the program

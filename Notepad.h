@@ -19,7 +19,6 @@ class Notepad : public QWidget
     Q_OBJECT
 public slots:
     void openFile();
-    void saveFile();
     void saveAs();
     void openFolder();
     void openSetting();
@@ -27,11 +26,11 @@ public slots:
     void find();
     void onClickTreeView(const QModelIndex &index);
 protected:
-    [[maybe_unused]] static void autoSave();
-
     void init();
     static void splitString(const std::string&, std::vector<std::string>&, const std::string&);
+    bool saveFile();
     string path;
+    string file;
     fstream fs;
     struct Config {
         bool autoSave;
@@ -44,6 +43,7 @@ protected:
 
 public:
     explicit Notepad(QWidget *parent = nullptr);
+//    void closeEvent(QCloseEvent *event) override;
     ~Notepad() override;
     QString getFontCfg() const;
     Text * T{};
