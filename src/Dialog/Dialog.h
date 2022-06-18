@@ -1,6 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
+#include <QAbstractButton>
 #include <QDialog>
 #include <QString>
 
@@ -23,10 +24,7 @@ public:
 
 public slots:
     void findFirst();
-    void type3Yes();
-    void type3No();
-    void type3Cancel();
-    [[maybe_unused]] void replace();
+    void type3Clicked(QAbstractButton * btn);
 
 private:
     Ui::Dialog *ui;

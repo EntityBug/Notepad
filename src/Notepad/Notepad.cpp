@@ -34,7 +34,8 @@ void Notepad::closeEvent(QCloseEvent * event) {
         auto * d = new Dialog(this, 3, cfg.chinese);
         d->show();
         d->exec();
-        while (d->finished);
+        while (!(d->finished));
+        qDebug() << d->returned << "\n";
         if (d->returned == 0) {
             if (this->path.empty())
                 this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
