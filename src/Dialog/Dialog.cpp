@@ -41,13 +41,17 @@ Dialog::Dialog(QWidget *parent, int id, bool chinese) :
     returned = 0;
     finished = false;
     qDebug() << "Dialog:init\n";
-    // Button: 0 Yes 1 No 2 Cancel 3 Ok
+    qDebug() << ui->buttonBox->buttons().length() << "\n";
+    for (int i = 0; i<4; i++) {
+        qDebug() << ui->buttonBox->buttons()[i] << "\n";
+    }
+    // Button: 0 Yes 1 Ok 2 No 3 Cancel
     if (id == 0) {
         qDebug() << "Dialog:type 0\n";
         this->setWindowTitle(T->findTitle);
         ui->label->setText(T->findTip);
-        ui->buttonBox->buttons()[3]->setText(T->okButton);
-        ui->buttonBox->buttons()[2]->setText(T->cancelButton);
+        ui->buttonBox->buttons()[1]->setText(T->okButton);
+        ui->buttonBox->buttons()[3]->setText(T->cancelButton);
         ui->buttonBox->removeButton(ui->buttonBox->buttons()[0]);
         ui->buttonBox->removeButton(ui->buttonBox->buttons()[1]);
         QObject::connect((ui->buttonBox), &QDialogButtonBox::accepted, this, &Dialog::findFirst);
@@ -55,20 +59,20 @@ Dialog::Dialog(QWidget *parent, int id, bool chinese) :
         qDebug() << "Dialog:type 1\n";
         this->setWindowTitle(T->about);
         ui->label->setText(T->aboutNotepadText);
-        ui->buttonBox->buttons()[3]->setText(T->okButton);
+        ui->buttonBox->buttons()[1]->setText(T->okButton);
         ui->buttonBox->removeButton(ui->buttonBox->buttons()[0]);
         ui->buttonBox->removeButton(ui->buttonBox->buttons()[1]);
-        ui->buttonBox->removeButton(ui->buttonBox->buttons()[2]);
+        ui->buttonBox->removeButton(ui->buttonBox->buttons()[1]);
         ui->lineEdit->setVisible(false);
         QObject::connect((ui->buttonBox), &QDialogButtonBox::accepted, this, &Dialog::close);
     } else if(id == 2) {
         qDebug() << "Dialog:type 2\n";
         this->setWindowTitle(T->settingsGuideTitle);
         ui->label->setText(T->settingsGuideText);
-        ui->buttonBox->buttons()[3]->setText(T->okButton);
+        ui->buttonBox->buttons()[1]->setText(T->okButton);
         ui->buttonBox->removeButton(ui->buttonBox->buttons()[0]);
         ui->buttonBox->removeButton(ui->buttonBox->buttons()[1]);
-        ui->buttonBox->removeButton(ui->buttonBox->buttons()[2]);
+        ui->buttonBox->removeButton(ui->buttonBox->buttons()[1]);
         ui->lineEdit->setVisible(false);
         QObject::connect((ui->buttonBox), &QDialogButtonBox::accepted, this, &Dialog::close);
     } else if(id == 3) {
@@ -76,9 +80,9 @@ Dialog::Dialog(QWidget *parent, int id, bool chinese) :
         this->setWindowTitle(T->quitDialogTitle);
         ui->label->setText(T->quitDialogText);
         ui->buttonBox->buttons()[0]->setText(T->yesButton);
-        ui->buttonBox->buttons()[1]->setText(T->noButton);
-        ui->buttonBox->buttons()[2]->setText(T->cancelButton);
-        ui->buttonBox->removeButton(ui->buttonBox->buttons()[3]);
+        ui->buttonBox->buttons()[2]->setText(T->noButton);
+        ui->buttonBox->buttons()[3]->setText(T->cancelButton);
+        ui->buttonBox->removeButton(ui->buttonBox->buttons()[1]);
         ui->lineEdit->setVisible(false);
         QObject::connect((ui->buttonBox), &QDialogButtonBox::accepted, this, &Dialog::type3Yes);
         QObject::connect((ui->buttonBox), &QDialogButtonBox::rejected, this, &Dialog::type3No);
