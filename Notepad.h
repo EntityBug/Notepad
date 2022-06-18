@@ -42,14 +42,17 @@ protected:
     QFileSystemModel * model;
 
 public:
-    explicit Notepad(QWidget *parent = nullptr);
-//    void closeEvent(QCloseEvent *event) override;
+    explicit Notepad(QWidget * parent = nullptr);
+
     ~Notepad() override;
     QString getFontCfg() const;
     Text * T{};
 
 private:
     Ui::Notepad *ui;
+
+protected:
+    void closeEvent(QCloseEvent * event) override;
 
 };
 #endif // NOTEPAD_H

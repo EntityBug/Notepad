@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <QAction>
+#include <QCloseEvent>
 #include <QFileDialog>
 #include <QFileSystemModel>
 #include <QFontDatabase>
@@ -21,16 +22,31 @@ using std::vector;
 void Notepad::about()
 {
     qDebug() << "Notepad::about: start.\n";
-    auto *d = new Dialog(this, 1, cfg.chinese);
+    auto * d = new Dialog(this, 1, cfg.chinese);
     d->show();
     d->exec();
 }
 
-//void Notepad::closeEvent(QCloseEvent * event) {
-//    if (this->path.empty() || file == ui->textEdit->toPlainText().toStdString()) {
-//        event->accept();
-//    }
-//}
+void Notepad::closeEvent(QCloseEvent * event) {
+    if (file == ui->textEdit->toPlainText().toStdString()) {
+        event->accept();
+    } else {
+        auto * d = new Dialog(this, 3, cfg.chinese);
+        d->show();
+        d->exec();
+        while (d->finished);
+        if (d->returned == 0) {
+            if (this->path.empty())
+                this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
+            if (saveFile())
+                event->accept();
+            else;
+        } else if (d->returned == 1)
+            event->accept();
+        else
+            event->ignore();
+    }
+}
 
 void Notepad::find()
 {
@@ -210,7 +226,8 @@ void Notepad::openSetting()
 void Notepad::saveAs()
 {
     qDebug() << "Notepad::saveAs: start.\n";
-    this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
+    if (this->path.empty())
+        this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
     qDebug() << "Notepad::saveAs: path:" << this->path.c_str() << ".\n";
     saveFile();
 }

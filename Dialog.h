@@ -18,12 +18,14 @@ public:
     explicit Dialog(QWidget *parent = nullptr, int id = 0, bool chinese = true);
     ~Dialog() override;
     QString findText;
+    bool finished;
     int returned;
 
 public slots:
     void findFirst();
-    void save();
-    void cancel();
+    void type3Yes();
+    void type3No();
+    void type3Cancel();
     [[maybe_unused]] void replace();
 
 private:

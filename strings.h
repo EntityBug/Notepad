@@ -49,6 +49,8 @@ public:
     s defaultConfig;
     s okButton;
     s cancelButton;
+    s yesButton;
+    s noButton;
     s settingsGuideTitle;
     s settingsGuideText;
     s quitDialogTitle;

@@ -108,6 +108,8 @@ void Text::loadLanguage(bool chinese) {
                   "在输入框内输入要查找的内容";
         okButton = "确定";
         cancelButton = "取消";
+        yesButton = "是";
+        noButton = "否";
         settingsGuideText = "配置方法\n"
                             "1.格式：名称=配置，不能加空格\n"
                             "2.所有名称都在默认生成的config.txt中，误删可通过恢复默认按钮重置\n"
@@ -213,6 +215,8 @@ void Text::loadLanguage(bool chinese) {
                   "Enter what you want to search in the TextEdit.";
         okButton = "Ok";
         cancelButton = "Cancel";
+        yesButton = "Yes";
+        noButton = "No";
         settingsGuideText = "Guide\n"
                             "1.Format: name=value, DO NOT ADD SPACE\n"
                             "2.config.txt includes all the names, if you deleted it, you can press \"restore\" button to restore it\n"
