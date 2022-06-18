@@ -14,25 +14,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (APPLE)
     set(CMAKE_PREFIX_PATH "/Users/tzx/Qt/6.2.4/macos/lib/cmake")
 elseif(WIN32)
+<<<<<<< Updated upstream
     set(CMAKE_PREFIX_PATH "C:/Qt/6.2.3/msvc2019_64/lib/cmake")
+=======
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.2.4/mingw_64/lib/cmake")
+>>>>>>> Stashed changes
 endif()
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
-        main.cpp
-        Notepad.cpp
-        Notepad.h
-        Notepad.ui
-        Dialog.cpp
-        Dialog.h
-        Dialog.ui
-        Setting.cpp
-        Setting.h
-        Setting.ui
-        strings.h
-        strings.cpp)
+        src/main/main.cpp
+        src/Notepad/Notepad.cpp
+        src/Notepad/Notepad.h
+        src/Notepad/Notepad.ui
+        src/Dialog/Dialog.cpp
+        src/Dialog/Dialog.h
+        src/Dialog/Dialog.ui
+        src/Setting/Setting.cpp
+        src/Setting/Setting.h
+        src/Setting/Setting.ui
+        src/Strings/Strings.h
+        src/Strings/Strings.cpp)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Notepad

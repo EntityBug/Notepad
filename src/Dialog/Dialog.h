@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QString>
 
-#include "strings.h"
+#include "src/Strings/Strings.h"
 
 namespace Ui {
 class Dialog;

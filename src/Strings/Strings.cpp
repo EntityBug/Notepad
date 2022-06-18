@@ -1,7 +1,7 @@
 //
 // Created by tzx on 2022/1/31.
 //
-#include "strings.h"
+#include "Strings.h"
 
 Text::Text() {
     version = "1.0 dev6 (220614)";
