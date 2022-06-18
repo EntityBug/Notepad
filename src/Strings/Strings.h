@@ -49,11 +49,15 @@ public:
     s defaultConfig;
     s okButton;
     s cancelButton;
+    s yesButton;
+    s noButton;
     s settingsGuideTitle;
     s settingsGuideText;
     s quitDialogTitle;
     s quitDialogText;
-    s quitDialogNoSaveButton;
+    s errorTitle;
+    s cannotSaveText;
+    s cannotFindText;
     void loadLanguage(bool chinese);
     explicit Text();
 };

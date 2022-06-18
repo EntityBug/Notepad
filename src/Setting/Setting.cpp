@@ -1,6 +1,6 @@
 #include "Setting.h"
 #include "ui_Setting.h"
-#include "Dialog.h"
+#include "src/Dialog/Dialog.h"
 
 #include <iostream>
 #include <QDialog>

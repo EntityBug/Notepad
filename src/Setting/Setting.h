@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QObject>
 #include <fstream>
-#include "strings.h"
+#include "src/Strings/Strings.h"
 
 namespace Ui {
 class Setting;

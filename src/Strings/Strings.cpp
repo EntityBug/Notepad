@@ -1,12 +1,11 @@
 //
 // Created by tzx on 2022/1/31.
 //
-#include "strings.h"
+#include "Strings.h"
 
 Text::Text() {
-    version = "1.0 dev6 (220614)";
-    defaultConfig = "autoSave=false\n"
-                    "treeView=true\n"
+    version = "1.0 Beta (220618)";
+    defaultConfig = "treeView=true\n"
                     "fontFamily=等线\n"
                     "chinese=true";
     title = "Notepad";
@@ -48,18 +47,29 @@ void Text::loadLanguage(bool chinese) {
         settingsLab2 = "关于";
         updateLog = "# 关于  \n"
                     "## 版本  \n"
-                    "version 1.0 dev 6 (220604)  \n"
+                    "version 1.0 Beta (220618)  \n"
                     "## 免责声明  \n"
                     "使用本APP造成的任何损失，本APP概不负责。  \n"
                     "## 更新日志  \n"
-                    "### Dev6 (220614)  \n"
+                    "### 1.0 Beta (220618)  \n"
+                    "EntityBug's Notepad首个Beta版  \n"
+                    "功能如下：  \n"
+                    "1.基础的打开、保存、另存为功能。  \n"
+                    "2.打开文件夹，并通过双击左侧文件列表切换文件。  \n"
+                    "3.退出前/打开文件前，若文件未保存，会弹出提示。  \n"
+                    "4.可在菜单中进行查找下一个、复制、粘贴、剪切、撤销、重做功能。  \n"
+                    "5.可在设置中切换语言（支持简体中文和英文）、切换字体等。  \n"
+                    "6.支持常用快捷键。  \n"
+                    "## Dev版完整更新日志  \n"
+                    "### Dev6 (220618)  \n"
                     "1.（正式地）新年快乐！  \n"
                     "2.更多资源分离，修改部分string  \n"
                     "3.添加部分更新日志  \n"
                     "4.优化部分UI  \n"
                     "5.添加了treeview的功能  \n"
                     "6.添加了设置中如何设置按钮的功能  \n"
-                    "7.未完待续  \n"
+                    "7.添加退出前提示  \n"
+                    "8.完成全部双语言支持  \n"
                     "### Dev5 (220131)  \n"
                     "1.添加设置中的初次打开生成config.txt、恢复config.txt的功能  \n"
                     "2.汉化搜索框  \n"
@@ -108,6 +118,8 @@ void Text::loadLanguage(bool chinese) {
                   "在输入框内输入要查找的内容";
         okButton = "确定";
         cancelButton = "取消";
+        yesButton = "是";
+        noButton = "否";
         settingsGuideText = "配置方法\n"
                             "1.格式：名称=配置，不能加空格\n"
                             "2.所有名称都在默认生成的config.txt中，误删可通过恢复默认按钮重置\n"
@@ -117,7 +129,9 @@ void Text::loadLanguage(bool chinese) {
         settingsGuideTitle = "配置方法";
         quitDialogTitle = "文件未保存";
         quitDialogText = "当前文件未保存，是否保存？";
-        quitDialogNoSaveButton = "不保存";
+        errorTitle = "错误";
+        cannotSaveText = "无法保存文件。";
+        cannotFindText = "未找到字符";
     } else {
         file = "File";
         open = "Open";
@@ -153,10 +167,20 @@ void Text::loadLanguage(bool chinese) {
         settingsLab2 = "About";
         updateLog = "# About  \n"
                     "## Version  \n"
-                    "version 1.0 dev 6 (220614)  \n"
+                    "version 1.0 Beta (220618)  \n"
                     "## Disclaimers  \n"
                     "I am not responsible for any loss caused by using this app.  \n"
                     "## Update Log  \n"
+                    "### 1.0 Beta (220618)  \n"
+                    "The first beta version of EntityBug's Notepad  \n"
+                    "Functions：  \n"
+                    "1.Open, Save, Save As.  \n"
+                    "2.Open Folder, Open files in the TreeView which is on the left.  \n"
+                    "3.Before you quit the app or open another file, there'll be a dialog if you didn't save the current file.  \n"
+                    "4.Find next, Undo, Redo, Cut, Copy, Paste.  \n"
+                    "5.Change Language (Chinese or English), Change Font, etc.  \n"
+                    "6.Support common shortcut keys.  \n"
+                    "## Full Changelog  \n"
                     "### Dev6 (220614)  \n"
                     "1.Happy lunar new year!  \n"
                     "2.Move more strings to strings.h & some string improvements.  \n"
@@ -213,6 +237,8 @@ void Text::loadLanguage(bool chinese) {
                   "Enter what you want to search in the TextEdit.";
         okButton = "Ok";
         cancelButton = "Cancel";
+        yesButton = "Yes";
+        noButton = "No";
         settingsGuideText = "Guide\n"
                             "1.Format: name=value, DO NOT ADD SPACE\n"
                             "2.config.txt includes all the names, if you deleted it, you can press \"restore\" button to restore it\n"
@@ -222,6 +248,8 @@ void Text::loadLanguage(bool chinese) {
         settingsGuideTitle = "Guide";
         quitDialogTitle = "File is not saved";
         quitDialogText = "The file is not saved, are you going to save it?";
-        quitDialogNoSaveButton = "Don't Save";
+        errorTitle = "Error";
+        cannotSaveText = "Failed to save file.";
+        cannotFindText = "The text is not exist.";
     }
 }

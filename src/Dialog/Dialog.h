@@ -1,10 +1,11 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
+#include <QAbstractButton>
 #include <QDialog>
 #include <QString>
 
-#include "strings.h"
+#include "src/Strings/Strings.h"
 
 namespace Ui {
 class Dialog;
@@ -18,13 +19,12 @@ public:
     explicit Dialog(QWidget *parent = nullptr, int id = 0, bool chinese = true);
     ~Dialog() override;
     QString findText;
+    bool finished;
     int returned;
 
 public slots:
     void findFirst();
-    void save();
-    void cancel();
-    [[maybe_unused]] void replace();
+    void type3Clicked(QAbstractButton * btn);
 
 private:
     Ui::Dialog *ui;
