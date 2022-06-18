@@ -14,11 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (APPLE)
     set(CMAKE_PREFIX_PATH "/Users/tzx/Qt/6.2.4/macos/lib/cmake")
 elseif(WIN32)
-<<<<<<< Updated upstream
-    set(CMAKE_PREFIX_PATH "C:/Qt/6.2.3/msvc2019_64/lib/cmake")
-=======
     set(CMAKE_PREFIX_PATH "C:/Qt/6.2.4/mingw_64/lib/cmake")
->>>>>>> Stashed changes
 endif()
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
