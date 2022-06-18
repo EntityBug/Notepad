@@ -33,7 +33,7 @@ protected:
     string file;
     fstream fs;
     struct Config {
-        bool autoSave;
+        // bool autoSave;
         bool treeView;
         QString font;
         bool chinese;

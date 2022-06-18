@@ -55,7 +55,9 @@ public:
     s settingsGuideText;
     s quitDialogTitle;
     s quitDialogText;
-    s quitDialogNoSaveButton;
+    s errorTitle;
+    s cannotSaveText;
+    s cannotFindText;
     void loadLanguage(bool chinese);
     explicit Text();
 };

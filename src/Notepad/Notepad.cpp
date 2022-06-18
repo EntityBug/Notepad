@@ -41,8 +41,13 @@ void Notepad::closeEvent(QCloseEvent * event) {
                 this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
             if (saveFile())
                 event->accept();
-            else
+            else {
+                auto * d = new Dialog(this, 4, cfg.chinese);
+                d->show();
+                d->exec();
                 event->ignore();
+            }
+
         } else if (d->returned == 1)
             event->accept();
         else
@@ -62,7 +67,9 @@ void Notepad::find()
         p.setColor(QPalette::Highlight, p.color(QPalette::Active, QPalette::Highlight));
         ui->textEdit->setPalette(p);
     } else {
-        QMessageBox::warning(this, "错误", "找不到字符", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+        auto * d = new Dialog(this, 5, cfg.chinese);
+        d->show();
+        d->exec();
     }
 
 }
@@ -77,7 +84,7 @@ void Notepad::init()
     qDebug() << "Notepad::init: start.\n";
     T = new Text();
 
-    cfg.autoSave = false;
+    // cfg.autoSave = false;
     cfg.treeView = true;
     cfg.font = QString("等线");
     cfg.chinese = true;
@@ -108,7 +115,7 @@ void Notepad::init()
             vector<string>& v = cfgArr;
             this->splitString(s, v, c);
             if (cfgArr[0] == "autoSave") {
-                if (cfgArr[1] == "true") cfg.autoSave = true;
+                // if (cfgArr[1] == "true") cfg.autoSave = true;
             } else if (cfgArr[0] == "treeView") {
                 if (cfgArr[1] == "false") cfg.treeView = false;
             } else if (cfgArr[0] == "fontFamily") {
@@ -167,6 +174,26 @@ void Notepad::onClickTreeView(const QModelIndex &index)
 {
     if (!model) return;
 
+    if (file != ui->textEdit->toPlainText().toStdString()) {
+        auto * d = new Dialog(this, 3, cfg.chinese);
+        d->show();
+        d->exec();
+        while (!(d->finished));
+        qDebug() << d->returned << "\n";
+        if (d->returned == 0) {
+            if (this->path.empty())
+                this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
+            if (!saveFile()) {
+                auto * d = new Dialog(this, 5, cfg.chinese);
+                d->show();
+                d->exec();
+                return;
+            }
+
+        } else if (d->returned == 2)
+            return;
+    }
+
     string text;
     string temp;
     this->path = model->filePath(index).toStdString();
@@ -184,6 +211,25 @@ void Notepad::onClickTreeView(const QModelIndex &index)
 
 void Notepad::openFile()
 {
+    if (file != ui->textEdit->toPlainText().toStdString()) {
+        auto * d = new Dialog(this, 3, cfg.chinese);
+        d->show();
+        d->exec();
+        while (!(d->finished));
+        qDebug() << d->returned << "\n";
+        if (d->returned == 0) {
+            if (this->path.empty())
+                this->path = QFileDialog::getSaveFileName(this, "", ".", "*.*").toStdString();
+            if (!saveFile()) {
+                auto * d = new Dialog(this, 5, cfg.chinese);
+                d->show();
+                d->exec();
+                return;
+            }
+        } else if (d->returned == 2)
+            return;
+    }
+
     string text;
     string temp;
     qDebug() << "Notepad::openFile: start.\n";

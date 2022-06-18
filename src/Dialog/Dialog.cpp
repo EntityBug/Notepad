@@ -77,6 +77,26 @@ Dialog::Dialog(QWidget *parent, int id, bool chinese) :
         ui->buttonBox->removeButton(okBtn);
         ui->lineEdit->setVisible(false);
         QObject::connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &Dialog::type3Clicked);
+    } else if(id == 4) {
+        qDebug() << "Dialog:type 4\n";
+        this->setWindowTitle(T->errorTitle);
+        ui->label->setText(T->cannotSaveText);
+        yesBtn->setText(T->okButton);
+        ui->buttonBox->removeButton(okBtn);
+        ui->buttonBox->removeButton(noBtn);
+        ui->buttonBox->removeButton(cancelBtn);
+        ui->lineEdit->setVisible(false);
+        QObject::connect((ui->buttonBox), &QDialogButtonBox::accepted, this, &Dialog::close);
+    } else if(id == 5) {
+        qDebug() << "Dialog:type 4\n";
+        this->setWindowTitle(T->errorTitle);
+        ui->label->setText(T->cannotFindText);
+        yesBtn->setText(T->okButton);
+        ui->buttonBox->removeButton(okBtn);
+        ui->buttonBox->removeButton(noBtn);
+        ui->buttonBox->removeButton(cancelBtn);
+        ui->lineEdit->setVisible(false);
+        QObject::connect((ui->buttonBox), &QDialogButtonBox::accepted, this, &Dialog::close);
     }
 }
 
