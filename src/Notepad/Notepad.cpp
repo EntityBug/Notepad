@@ -58,10 +58,11 @@ void Notepad::closeEvent(QCloseEvent * event) {
 void Notepad::find()
 {
     qDebug() << "Notepad::find(): start.\n";
-    auto *d = new Dialog(this, 0, cfg.chinese);
+    auto * d = new Dialog(this, 0, cfg.chinese);
     d->show();
     d->exec();
     QString fText = d->findText;
+    if (fText.isEmpty()) return;
     if (ui->textEdit->find(fText)) {
         QPalette p = ui->textEdit->palette();
         p.setColor(QPalette::Highlight, p.color(QPalette::Active, QPalette::Highlight));
@@ -113,13 +114,12 @@ void Notepad::init()
             const string& c = "=";
             const string& s = temp;
             vector<string>& v = cfgArr;
-            this->splitString(s, v, c);
+            Notepad::splitString(s, v, c);
             if (cfgArr[0] == "autoSave") {
                 // if (cfgArr[1] == "true") cfg.autoSave = true;
             } else if (cfgArr[0] == "treeView") {
                 if (cfgArr[1] == "false") cfg.treeView = false;
             } else if (cfgArr[0] == "fontFamily") {
-                QFontDatabase fdb;
                 QStringList list = QFontDatabase::families();
                 if(cfgArr[1] != "default") {
                     for (const auto & i : list) {

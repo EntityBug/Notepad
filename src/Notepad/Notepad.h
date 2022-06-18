@@ -39,7 +39,7 @@ protected:
         bool chinese;
     };
     Config cfg;
-    QFileSystemModel * model;
+    QFileSystemModel * model{};
 
 public:
     explicit Notepad(QWidget * parent = nullptr);
