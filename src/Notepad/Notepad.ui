@@ -30,8 +30,9 @@ QMenu:selected {
 	color: rgb(64, 64, 64);
 	background-color: rgb(224, 224, 224);
 }
-
- </string>
+QMenu::separator {
+	color: rgb(224, 224, 224)
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
