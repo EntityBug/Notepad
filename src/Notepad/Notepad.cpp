@@ -75,17 +75,24 @@ void Notepad::find()
 
 }
 
-QString Notepad::getFontCfg() const
+vector<QString> Notepad::getFontCfg()
 {
-    return cfg.font;
+    vector<QString> fontCfg = {cfg.font, cfg.fontSize};
+    return fontCfg;
 }
 
-void Notepad::init()
+bool Notepad::init()
 {
-    qDebug() << "Notepad::init: start.\n";
-    T = new Text();
+    qDebug() << "[Info]init: start. \n";
 
+    ui->setupUi(this);
+    qDebug() << "[Info]ui: setup ui. \n";
+
+    // read cfg
+    qDebug() << "[Info]init: read cfg. \n";
+    T = new Text();
     // cfg.autoSave = false;
+    cfg.fontSize = QString("12");
     cfg.treeView = true;
     cfg.font = QString("等线");
     cfg.chinese = true;
@@ -93,11 +100,11 @@ void Notepad::init()
     this->fs.open("config.txt", std::ios::in);
 
     if (!this->fs) {
-        qDebug() << "Notepad::init-log:config.txt is not exist\n";
+        qDebug() << "[Warning]init: config.txt is not exist. \n";
         this->fs.close();
         this->fs.open("config.txt", std::ios::out);
         if(!this->fs) {
-            qDebug() << "Notepad::init-log:create config.txt failed.";
+            qDebug() << "[Warning]init: create config.txt failed. Using default cfg. \n";
         } else {
             this->fs << T->defaultConfig.toStdString();
         }
@@ -128,23 +135,31 @@ void Notepad::init()
                 }
             } else if (cfgArr[0] == "chinese") {
                 if (cfgArr[1] == "false") cfg.chinese = false;
+            } else if (cfgArr[0] == "fontSize") {
+                cfg.fontSize = QString(cfgArr[1].c_str());
             }
             cfgArr.clear();
         }
         this->fs.close();
         if (text.empty()) {
-            qDebug() << "Notepad::init-log:config.txt is empty\n";
+            qDebug() << "[Warning]init: config.txt is empty. \n";
             this->fs.open("config.txt", std::ios::out);
-            if (!this->fs) return;
-            this->fs << T->defaultConfig.toStdString();
+            if(!this->fs) {
+                qDebug() << "[Warning]init: create config.txt failed. Using default cfg. \n";
+            } else {
+                this->fs << T->defaultConfig.toStdString();
+            }
             this->fs.close();
         }
     }
 
+    // Update UI
+    qDebug() << "[Info]init: update UI. \n";
     ui->treeView->setVisible(cfg.treeView);
     ui->actionTreeViewEnable->setChecked(cfg.treeView);
 
-    T->loadLanguage(cfg.chinese);
+    if (!T->loadLanguage(cfg.chinese))
+        return false;
 
     setWindowTitle(T->title);
     ui->menuFile->setTitle(T->file);
@@ -168,6 +183,29 @@ void Notepad::init()
     ui->actionTreeViewClean->setText(T->treeClear);
     ui->menuHelp->setTitle(T->about);
     ui->actionAbout->setText(T->aboutNotepad);
+
+    // connect signals and slots
+    qDebug() << "[Info]init: connect signals and slots. \n";
+    QObject::connect((ui->actionExit), &QAction::triggered, this, &QWidget::close);  // close the window
+    QObject::connect((ui->actionOpen), &QAction::triggered, this, &Notepad::openFile);  // open file
+    QObject::connect((ui->actionSave), &QAction::triggered, this, &Notepad::saveAs);  // save file
+    QObject::connect((ui->actionSaveAs), &QAction::triggered, this, &Notepad::saveAs);  // save file as
+    QObject::connect((ui->actionSetting), &QAction::triggered, this, &Notepad::openSetting);  // open the dialog of settings
+    QObject::connect((ui->actionAbout), &QAction::triggered, this, &Notepad::about);  // show the information of the program
+    QObject::connect((ui->actionUndo), &QAction::triggered, ui->textEdit, &QTextEdit::undo);  // undo
+    QObject::connect((ui->actionRedo), &QAction::triggered, ui->textEdit, &QTextEdit::redo);  // redo
+    QObject::connect((ui->actionCut), &QAction::triggered, ui->textEdit, &QTextEdit::cut);  // cut some text
+    QObject::connect((ui->actionCopy), &QAction::triggered, ui->textEdit, &QTextEdit::copy);  // copy some text
+    QObject::connect((ui->actionPaste), &QAction::triggered, ui->textEdit, &QTextEdit::paste);  // paste some text
+    QObject::connect(ui->actionTreeViewEnable, &QAction::toggled, ui->treeView, &QTreeView::setVisible);  // show or not show the tree view
+    // QObject::connect((ui->actionTreeViewClean), &QAction::triggered, ui->treeView, &QTreeView::);  // clear the tree view
+    QObject::connect((ui->actionTreeViewCloseAll), &QAction::triggered, ui->treeView, &QTreeView::collapseAll);  // close all selection
+    QObject::connect((ui->actionTreeViewShowAll), &QAction::triggered, ui->treeView, &QTreeView::expandAll);
+    QObject::connect((ui->actionOpenFolder), &QAction::triggered, this, &Notepad::openFolder);
+    QObject::connect((ui->actionFind), &QAction::triggered, this, &Notepad::find);
+    QObject::connect((ui->treeView), &QAbstractItemView::doubleClicked, this, &Notepad::onClickTreeView);
+    qDebug() << "[Info]init: finished. \n";
+    return true;
 }
 
 void Notepad::onClickTreeView(const QModelIndex &index)
@@ -309,28 +347,10 @@ void Notepad::splitString(const string& s, vector<string>& v, const string& c)
 Notepad::Notepad(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Notepad)
-{   
-    ui->setupUi(this);
-
-    init();
-    QObject::connect((ui->actionExit), &QAction::triggered, this, &QWidget::close);  // close the window
-    QObject::connect((ui->actionOpen), &QAction::triggered, this, &Notepad::openFile);  // open file
-    QObject::connect((ui->actionSave), &QAction::triggered, this, &Notepad::saveAs);  // save file
-    QObject::connect((ui->actionSaveAs), &QAction::triggered, this, &Notepad::saveAs);  // save file as
-    QObject::connect((ui->actionSetting), &QAction::triggered, this, &Notepad::openSetting);  // open the dialog of settings
-    QObject::connect((ui->actionAbout), &QAction::triggered, this, &Notepad::about);  // show the information of the program
-    QObject::connect((ui->actionUndo), &QAction::triggered, ui->textEdit, &QTextEdit::undo);  // undo
-    QObject::connect((ui->actionRedo), &QAction::triggered, ui->textEdit, &QTextEdit::redo);  // redo
-    QObject::connect((ui->actionCut), &QAction::triggered, ui->textEdit, &QTextEdit::cut);  // cut some text
-    QObject::connect((ui->actionCopy), &QAction::triggered, ui->textEdit, &QTextEdit::copy);  // copy some text
-    QObject::connect((ui->actionPaste), &QAction::triggered, ui->textEdit, &QTextEdit::paste);  // paste some text
-    QObject::connect(ui->actionTreeViewEnable, &QAction::toggled, ui->treeView, &QTreeView::setVisible);  // show or not show the tree view
-    // QObject::connect((ui->actionTreeViewClean), &QAction::triggered, ui->treeView, &QTreeView::);  // clear the tree view
-    QObject::connect((ui->actionTreeViewCloseAll), &QAction::triggered, ui->treeView, &QTreeView::collapseAll);  // close all selection
-    QObject::connect((ui->actionTreeViewShowAll), &QAction::triggered, ui->treeView, &QTreeView::expandAll);
-    QObject::connect((ui->actionOpenFolder), &QAction::triggered, this, &Notepad::openFolder);
-    QObject::connect((ui->actionFind), &QAction::triggered, this, &Notepad::find);
-    QObject::connect((ui->treeView), &QAbstractItemView::doubleClicked, this, &Notepad::onClickTreeView);
+{
+    if (!init()) {
+        return;
+    }
 }
 
 Notepad::~Notepad()

@@ -22,13 +22,16 @@
    <string/>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMenu {background-color: rgb(240, 240, 240);}
+   <string notr="true">QMenu {
+	background-color: rgb(250, 250, 250);
+	border-radius: 16px
+}
 QMenu:selected {
-	color: rgb(0, 136, 221);
-	border-color: rgb(128, 128, 128);
+	color: rgb(64, 64, 64);
+	background-color: rgb(224, 224, 224);
 }
 
-</string>
+ </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">

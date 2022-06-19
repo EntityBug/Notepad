@@ -7,11 +7,12 @@ Text::Text() {
     version = "1.0 Beta (220618)";
     defaultConfig = "treeView=true\n"
                     "fontFamily=等线\n"
+                    "fontSize=12\n"
                     "chinese=true";
     title = "Notepad";
 }
 
-void Text::loadLanguage(bool chinese) {
+bool Text::loadLanguage(bool chinese) {
     if (chinese) {
         file = "文件";
         open = "打开";
@@ -124,7 +125,7 @@ void Text::loadLanguage(bool chinese) {
                             "1.格式：名称=配置，不能加空格\n"
                             "2.所有名称都在默认生成的config.txt中，误删可通过恢复默认按钮重置\n"
                             "3.配置一种为布尔值，可以填写true和false，注意true对应打开，false对应关闭，二者都只能用小写字母\n"
-                            "4.另一种即字体配置，可以输入你在Word中看到的所有的字体名，不用加除名称外的其他信息。\n"
+                            "4.另一种即字体配置。对于fontFamily，你可以输入你在Word中看到的所有的字体名，不用加除名称外的其他信息；对于fontSize，输入整数表示字体大小。\n"
                             "5.chinese选项开启为中文（简体），关闭为英文";
         settingsGuideTitle = "配置方法";
         quitDialogTitle = "文件未保存";
@@ -242,8 +243,8 @@ void Text::loadLanguage(bool chinese) {
         settingsGuideText = "Guide\n"
                             "1.Format: name=value, DO NOT ADD SPACE\n"
                             "2.config.txt includes all the names, if you deleted it, you can press \"restore\" button to restore it\n"
-                            "3.There are 2 kinds of values, bool and string. For bool values, you can enter true or false, ONLY USE LOWERCASE LETTERS\n"
-                            "4.For string values (font setting), you should enter the font name that you can see in Microsoft Word (or other office apps). You don't need to enter anything except the font name\n"
+                            "3.There are 3 kinds of values, bool, int and string. For bool values, you can enter true or false, ONLY USE LOWERCASE LETTERS\n"
+                            "4.For string values (fontFamily), you should enter the font name that you can see in Microsoft Word (or other office apps). You don't need to enter anything except the font name. For fontSize, enter an integer to adjust font size.\n"
                             "5.If you set \"chinese\" to false, the language will be changed to English, or the language will be Chinese (Simplified)";
         settingsGuideTitle = "Guide";
         quitDialogTitle = "File is not saved";
@@ -252,4 +253,5 @@ void Text::loadLanguage(bool chinese) {
         cannotSaveText = "Failed to save file.";
         cannotFindText = "The text is not exist.";
     }
+    return true;
 }

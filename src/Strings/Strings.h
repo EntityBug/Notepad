@@ -58,7 +58,7 @@ public:
     s errorTitle;
     s cannotSaveText;
     s cannotFindText;
-    void loadLanguage(bool chinese);
+    bool loadLanguage(bool chinese);
     explicit Text();
 };
 

@@ -26,7 +26,7 @@ public slots:
     void find();
     void onClickTreeView(const QModelIndex &index);
 protected:
-    void init();
+    bool init();
     static void splitString(const std::string&, std::vector<std::string>&, const std::string&);
     bool saveFile();
     string path;
@@ -37,6 +37,7 @@ protected:
         bool treeView;
         QString font;
         bool chinese;
+        QString fontSize;
     };
     Config cfg;
     QFileSystemModel * model{};
@@ -45,7 +46,7 @@ public:
     explicit Notepad(QWidget * parent = nullptr);
 
     ~Notepad() override;
-    QString getFontCfg() const;
+    vector<QString> getFontCfg();
     Text * T{};
 
 private:
