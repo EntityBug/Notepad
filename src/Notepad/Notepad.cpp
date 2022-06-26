@@ -1,23 +1,6 @@
-#include "src/Dialog/Dialog.h"
 #include "Notepad.h"
-#include "src/Setting/Setting.h"
-#include "ui_Notepad.h"
-#include "src/Strings/Strings.h"
 
-#include <iostream>
-#include <QAction>
-#include <QCloseEvent>
-#include <QFileDialog>
-#include <QFileSystemModel>
-#include <QFontDatabase>
-#include <QMessageBox>
-#include <QObject>
-#include <QPalette>
-#include <QString>
-#include <vector>
-
-using std::string;
-using std::vector;
+using namespace std;
 
 void Notepad::about()
 {

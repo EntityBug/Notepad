@@ -1,12 +1,25 @@
 #ifndef NOTEPAD_H
 #define NOTEPAD_H
-#include "src/Strings/Strings.h"
 
-#include <QMainWindow>
+#include "src/Dialog/Dialog.h"
+#include "src/Setting/Setting.h"
+#include "src/Strings/Strings.h"
+#include "ui_Notepad.h"
+
 #include <fstream>
 #include <iostream>
 #include <QFont>
+#include <QAction>
+#include <QCloseEvent>
+#include <QFileDialog>
 #include <QFileSystemModel>
+#include <QFontDatabase>
+#include <QMainWindow>
+#include <QMessageBox>
+#include <QObject>
+#include <QPalette>
+#include <QString>
+#include <vector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Notepad; }

@@ -1,10 +1,4 @@
 #include "Dialog.h"
-#include "ui_Dialog.h"
-
-#include <iostream>
-#include <QDialogButtonBox>
-#include <QObject>
-#include <QMessageBox>
 
 void Dialog::findFirst()
 {
@@ -33,10 +27,10 @@ Dialog::Dialog(QWidget *parent, int id, bool chinese) :
     returned = 0;
     finished = false;
     qDebug() << "Dialog:init\n";
-    QAbstractButton * yesBtn = (QAbstractButton *)ui->buttonBox->button(QDialogButtonBox::Yes);
-    QAbstractButton * noBtn = (QAbstractButton *)ui->buttonBox->button(QDialogButtonBox::No);
-    QAbstractButton * okBtn = (QAbstractButton *)ui->buttonBox->button(QDialogButtonBox::Ok);
-    QAbstractButton * cancelBtn = (QAbstractButton *)ui->buttonBox->button(QDialogButtonBox::Cancel);
+    auto * yesBtn = (QAbstractButton *)ui->buttonBox->button(QDialogButtonBox::Yes);
+    auto * noBtn = (QAbstractButton *)ui->buttonBox->button(QDialogButtonBox::No);
+    auto * okBtn = (QAbstractButton *)ui->buttonBox->button(QDialogButtonBox::Ok);
+    auto * cancelBtn = (QAbstractButton *)ui->buttonBox->button(QDialogButtonBox::Cancel);
 
     if (id == 0) {
         qDebug() << "Dialog:type 0\n";

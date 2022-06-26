@@ -1,11 +1,16 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
+#include "src/Strings/Strings.h"
+#include "ui_Dialog.h"
+
+#include <iostream>
 #include <QAbstractButton>
 #include <QDialog>
+#include <QDialogButtonBox>
+#include <QMessageBox>
+#include <QObject>
 #include <QString>
-
-#include "src/Strings/Strings.h"
 
 namespace Ui {
 class Dialog;
